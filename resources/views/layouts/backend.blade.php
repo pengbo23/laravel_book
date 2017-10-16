@@ -45,19 +45,19 @@
 
             <ul class="layui-nav layui-nav-tree site-demo-nav">
 
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="javascript:;" href="javascript:;">开发工具</a>
+                <li class="layui-nav-item  layui-this">
+                    <a class="javascript:;" href="javascript:void (0);">主页</a>
                     <dl class="layui-nav-child">
                         <dd>
-                            <a href="/demo/">调试预览</a>
+                            <a href="/demo/">测试页</a>
                         </dd>
                     </dl>
                 </li>
 
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a class="javascript:;" href="javascript:;">book</a>
+                    <a class="javascript:;" href="javascript:;">书籍信息</a>
                     <dl class="layui-nav-child">
-                        <dd class="layui-this">
+                        <dd class="">
                             <a href="{{ route('book') }}">book</a>
                         </dd>
                         <dd class="">

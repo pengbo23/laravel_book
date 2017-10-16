@@ -46,7 +46,9 @@ Route::get('backendLoginCaptcha', 'BackendLoginController@createCaptcha')->name(
 Route::post('backendSignIn', 'BackendLoginController@signIn');
 Route::get('backendLogout', 'BackendLoginController@logout')->name('backendLogout');
 Route::namespace('Backend')->prefix('backend')->middleware('backend')->group(function () {
+
     Route::get('index', 'IndexController@index')->name('backend.index');
+
     Route::get('book', 'BookController@index')->name('book');
     Route::get('book/add', 'BookController@add')->name('book.add');
     Route::post('book/add', 'BookController@addOp');
@@ -54,7 +56,13 @@ Route::namespace('Backend')->prefix('backend')->middleware('backend')->group(fun
     Route::post('book/update','BookController@update')->name('book.update');
     Route::post('book/delete','BookController@delete')->name('book.delete');
     Route::get('getBook', 'BookController@getBook')->name('getBook');
-    Route::get('book/tag', 'BookController@tag')->name('book.tag');
+
+    Route::get('book/tag', 'BookTagController@index')->name('book.tag');
+    Route::get('bookTag/add', 'BookTagController@add')->name('bookTag.add');
+    Route::post('bookTag/add', 'BookTagController@addOp');
+    Route::get('getBookTag', 'BookTagController@getBookTag');
+    Route::get('bookTag/edit/{id}','BookTagController@edit')->name('bookTag.edit');
+   // Route::get('getBookTag', 'BookTagController@getBookTag');
 });
 
 

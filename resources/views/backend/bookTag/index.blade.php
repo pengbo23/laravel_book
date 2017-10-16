@@ -1,10 +1,7 @@
 @extends('layouts.backend')
 @section('content')
     <div class="layui-btn-group demoTable" style="margin-top: 5px;">
-        <a  href="{{route('book.add')}}" class="layui-btn">增加书籍</a>
-        <button class="layui-btn" data-type="getCheckData">获取选中行数据</button>
-        <button class="layui-btn" data-type="getCheckLength">获取选中数目</button>
-        <button class="layui-btn" data-type="isAll">验证是否全选</button>
+        <a  href="{{url('backend/bookTag/add')}}" class="layui-btn">增加书籍标签</a>
     </div>
     <div style="margin-top: 5px;">
         <form class="layui-form layui-form-pane"  method="get" action="{{route('book')}}">
@@ -14,7 +11,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">书籍名称</label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" value="{{request('title')}}" autocomplete="off" class="layui-input">
+                        <input type="text" name="tag" value="{{request('tag')}}" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -25,14 +22,14 @@
             </div>
         </form>
     </div>
-    <table class="layui-table" lay-data="{ height:600, url:'{{route('getBook')}}',where: {title: '{{request('title')}}', id: 123}, page:true, id:'idTest'}" lay-filter="demo">
+    <table class="layui-table" lay-data="{ height:600, url:'{{url('backend/getBookTag')}}',where: {tag: '{{request('tag')}}'}, page:true, id:'idTest'}" lay-filter="demo">
         <thead>
         <tr>
             <th lay-data="{checkbox:true, fixed: true}"></th>
             <th lay-data="{field:'id', width:80, sort: true, fixed: true}">ID</th>
-            <th lay-data="{field:'title', width:200}">书名</th>
-            <th lay-data="{field:'introduction', width:200, sort: true}">简介</th>
+            <th lay-data="{field:'tag', width:200}">标签</th>
             <th lay-data="{field:'created_at', width:200}">创建时间</th>
+            <th lay-data="{field:'updated_at', width:200}">更新时间</th>
             <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barDemo'}">操作</th>
         </tr>
         </thead>

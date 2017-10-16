@@ -10,6 +10,8 @@ namespace App\Http\Controllers\Backend;
 
 
 use App\Eloquent\Book;
+use App\Eloquent\BookIsTag;
+use App\Eloquent\BookTag;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -45,31 +47,47 @@ class BookController extends Controller
             'data' => $list['data'],
             'msg' => '',
         );
-        echo json_encode($arr);
-        die();
+        return response()->json($arr);
+
     }
 
 
     public function add()
     {
-        return view('backend.book.add');
+        $bookTag = BookTag::all();
+        return view('backend.book.add',['bookTag'=>$bookTag]);
     }
 
     public function addOp(Request $request)
     {
+
         $book = new Book();
         $book->title = $request->title;
         $book->introduction = $request->introduction;
         $book->publish_date = $request->publish_date;
         $res = $book->save();
-        echo json_encode($res);
-        die();
+        if($request->tag){
+            foreach ($request->tag as $key=>$val){
+                $bookIsTag = new BookIsTag();
+                $bookIsTag->book_tag_id = $key;
+                $bookIsTag->book_id = $book->id;
+                $res = $bookIsTag->save();
+            }
+        }
+        return response()->json($res);
+
     }
 
     public function edit($id)
     {
         $book = new Book();
-        return view('backend.book.edit', ['book' => $book->findOrFail($id)]);
+        $bookItem = $book->findOrFail($id);
+        $bookTags = BookTag::all();
+        $bookIsTag = BookIsTag::where('book_id',$bookItem->id)->get();
+        foreach ($bookTags as $bookTag){
+
+        }
+        return view('backend.book.edit', ['book' => $bookItem,'bookTag'=>$bookTag]);
     }
 
     public function update(Request $request)
@@ -79,15 +97,13 @@ class BookController extends Controller
         $book->introduction = $request->introduction;
         $book->publish_date = $request->publish_date;
         $res = $book->save();
-        echo json_encode($res);
-        die();
+        return response()->json($res);
+
     }
 
     public function delete(Request $request)
     {
-
        $res =  Book::destroy($request->id);
-        echo json_encode($res);
-        die();
+        return response()->json($res);
     }
 }
