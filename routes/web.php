@@ -63,6 +63,9 @@ Route::namespace('Backend')->prefix('backend')->middleware('backend')->group(fun
     Route::get('getBookTag', 'BookTagController@getBookTag');
     Route::get('bookTag/edit/{id}','BookTagController@edit')->name('bookTag.edit');
    // Route::get('getBookTag', 'BookTagController@getBookTag');
+
+    //上传文件
+    Route::post('upload','UploadController@index')->name('backend.upload');
 });
 
 

@@ -14,6 +14,7 @@ use App\Eloquent\BookIsTag;
 use App\Eloquent\BookTag;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
@@ -82,12 +83,23 @@ class BookController extends Controller
     {
         $book = new Book();
         $bookItem = $book->findOrFail($id);
-        $bookTags = BookTag::all();
-        $bookIsTag = BookIsTag::where('book_id',$bookItem->id)->get();
-        foreach ($bookTags as $bookTag){
-
+        $tagAll = BookTag::all()->toArray();
+        $tagIds = DB::table('book_is_tag')->where('book_is_tag.book_id','=',$bookItem->id)
+           ->select('book_tag.id')
+           ->join('book_tag','book_is_tag.book_tag_id','book_tag.id')
+           ->get()->toArray();
+        $tempIds = array();
+        foreach ($tagIds as $val){
+            $tempIds[$val->id] = 1;
         }
-        return view('backend.book.edit', ['book' => $bookItem,'bookTag'=>$bookTag]);
+        foreach ($tagAll as $key=>$val){
+             if(isset($tempIds[$val['id']])){
+                 $tagAll[$key]['check'] = 1;
+             }else{
+                 $tagAll[$key]['check'] = 0;
+             }
+        }
+       return view('backend.book.edit', ['book' => $bookItem,'bookTag'=>$tagAll]);
     }
 
     public function update(Request $request)
@@ -97,6 +109,15 @@ class BookController extends Controller
         $book->introduction = $request->introduction;
         $book->publish_date = $request->publish_date;
         $res = $book->save();
+        if($request->tag){
+            BookIsTag::where('book_id',$book->id)->delete();
+            foreach ($request->tag as $key=>$val){
+                $bookIsTag = new BookIsTag();
+                $bookIsTag->book_tag_id = $key;
+                $bookIsTag->book_id = $book->id;
+                $res = $bookIsTag->save();
+            }
+        }
         return response()->json($res);
 
     }

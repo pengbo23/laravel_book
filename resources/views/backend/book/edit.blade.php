@@ -12,6 +12,18 @@
                 <input type="text" name="title" autocomplete="off" placeholder="请输入书名" value="{{$book['title']}}" class="layui-input"  lay-verify="required">
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">标签</label>
+            <div class="layui-input-block">
+                @foreach ($bookTag as $item)
+                    @if($item['check'])
+                        <input name="tag[{{$item['id']}}]" title="{{$item['tag']}}" checked type="checkbox">
+                    @else
+                        <input name="tag[{{$item['id']}}]" title="{{$item['tag']}}"  type="checkbox">
+                    @endif
+                @endforeach
+            </div>
+        </div>
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">简介</label>
             <div class="layui-input-block">
