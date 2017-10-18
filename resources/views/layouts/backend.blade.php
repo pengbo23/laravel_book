@@ -14,6 +14,7 @@
     <!-- Styles -->
     <link href="{{ asset('layui/css/layui.css') }}" rel="stylesheet">
     <link href="{{ asset('layui/css/global.css') }}" rel="stylesheet">
+    @yield('top')
 </head>
 <body>
 <div class="layui-layout layui-layout-admin">

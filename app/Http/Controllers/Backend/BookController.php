@@ -29,7 +29,7 @@ class BookController extends Controller
         if($request->title){
             $where[] = array('title', 'like', '%' . $request->title . '%');
         }
-        $list = Book::where($where)
+        $list = Book::where($where)->orderBy('updated_at','desc')
             ->simplePaginate($request->limit)
             ->toArray();
         /*if ($request->title) {
@@ -65,6 +65,7 @@ class BookController extends Controller
         $book = new Book();
         $book->title = $request->title;
         $book->introduction = $request->introduction;
+        $book->pic = $request->pic;
         $book->publish_date = $request->publish_date;
         $res = $book->save();
         if($request->tag){
@@ -107,6 +108,7 @@ class BookController extends Controller
         $book = Book::find($request->id);
         $book->title = $request->title;
         $book->introduction = $request->introduction;
+        $book->pic = $request->pic;
         $book->publish_date = $request->publish_date;
         $res = $book->save();
         if($request->tag){

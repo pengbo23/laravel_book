@@ -25,7 +25,7 @@ class UploadController extends Controller
             $extension = $file->getClientOriginalExtension();
             $newName = uniqid().date('YmdHis').mt_rand(100,999).".".$extension;
             $path = $file->move(base_path()."/public/uploads",$newName);
-            $filepath = 'public/uploads/'.$newName;
+            $returnFilePath ='uploads/'.$newName;
             //return $filepath;
             /*//检验上传的文件是否有效
             $clientName = $file->getClientOriginalName();//获取文件名称
@@ -40,6 +40,6 @@ class UploadController extends Controller
             //这里app_path()就是app文件夹所在的路径。$newName 可以是通过某种算法获得的文件名称
             //比如 $newName = md5(date('YmdHis').$clientName).".".$extension;*/
         }
-        return response()->json(array('code'=>0,'msg'=>'上传成功','data'=>array('path'=>$filepath)));
+        return response()->json(array('code'=>0,'msg'=>'上传成功','data'=>array('path'=>$returnFilePath)));
     }
 }
